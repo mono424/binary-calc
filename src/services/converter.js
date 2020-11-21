@@ -16,19 +16,22 @@ const decodeDezFractToBinary = (num) => {
 };
 
 const isLegal = (base, num) => {
+    num = num.replace(" ", "");
     if (!num || num.length <= 0) return false;
     return [...num].every(c => ALPHABET.indexOf(c) >= 0 && ALPHABET.indexOf(c) < base);
 }
 
 const convertToDez = (base, num) => {
-    if(base == 10) return parseInt(num);
+    num = num.replace(" ", "");
     if (num == "") return 0;
+    if(base == 10) return parseInt(num);
     return ALPHABET.indexOf(num[num.length - 1]) + base * convertToDez(base, num.substr(0, num.length - 1));
 };
 
 const convertToDezFract = (base, num) => {
-    if(base == 10) return parseInt(num);
+    num = num.replace(" ", "");
     if (num == "") return 0;
+    if(base == 10) return parseFloat("0." + num);
     return (ALPHABET.indexOf(num[0]) + convertToDezFract(base, num.substr(1, num.length - 1))) / base;
 };
 

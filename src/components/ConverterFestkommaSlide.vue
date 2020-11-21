@@ -51,8 +51,11 @@ export default {
       }
 
       let valB10 = converter.convertToDez(base, val);
-      let val2B10 = ("" + (converter.convertToDezFract(base, val2) || "0.0")).substr(2);
-
+      let val2B10 = "" + converter.convertToDezFract(base, val2);
+      if (val2B10.indexOf(".") > 0) {
+        val2B10 = val2B10.split(".")[1];
+      }
+      
       newValues[10] = ["" + valB10, "" + val2B10];
       newValues[2] = [
         converter.decodeDezByBase(2, valB10).join(''),

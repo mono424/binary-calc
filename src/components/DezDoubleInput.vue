@@ -23,12 +23,12 @@ export default {
   background: #2c3e50;
   border-radius: 35px;
   margin: 0 auto;
-  width: 300px;
+  width: 600px;
   border: 6px solid rgba(27, 27, 27, 0.25);
   box-shadow: 2px 4px 12px rgba(27, 27, 27, 0.25);
 
   input {
-    width: 100px;
+    width: 250px;
     display: block;
     background: transparent;
     border: none;
