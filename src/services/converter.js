@@ -5,6 +5,16 @@ const decodeDezByBase = (base, num) => {
     return [...decodeDezByBase(base, Math.floor(num / base)), ALPHABET[num % base]];
 };
 
+const decodeDezFractToBinary = (num) => {
+    num = num * 2;
+    if (num == 1) return [ALPHABET[1]];
+    if (num == 0) return [];
+
+    return (num > 1) 
+    ? [ALPHABET[1], ...decodeDezFractToBinary((num - 1))]
+    : [ALPHABET[0], ...decodeDezFractToBinary(num)];
+};
+
 const isLegal = (base, num) => {
     if (!num || num.length <= 0) return false;
     return [...num].every(c => ALPHABET.indexOf(c) >= 0 && ALPHABET.indexOf(c) < base);
@@ -19,7 +29,7 @@ const convertToDez = (base, num) => {
 const convertToDezFract = (base, num) => {
     if(base == 10) return parseInt(num);
     if (num == "") return 0;
-    return ALPHABET.indexOf(num[num.length - 1]) + convertToDezFract(base, num.substr(0, num.length - 1)) / base;
+    return (ALPHABET.indexOf(num[0]) + convertToDezFract(base, num.substr(1, num.length - 1))) / base;
 };
 
 export default {
@@ -27,4 +37,5 @@ export default {
     isLegal,
     convertToDez,
     convertToDezFract,
+    decodeDezFractToBinary,
 }

@@ -14,12 +14,6 @@
       </Notice>
       <DezDoubleInput :value="values['2']" @cUpdate="update(2, $event)" />
     </Group>
-    <Group title="Hex">
-      <Notice title="Details">
-        Ein Zahlensystem zur Basis 16. Eignet sich dazu Binärzahlen kürzer dazuzstellen.
-      </Notice>
-      <DezDoubleInput :value="values['16']" @cUpdate="update(16, $event)" />
-    </Group>
   </div>
 </template>
 
@@ -39,7 +33,6 @@ export default {
   data() {
     return {
       values: {
-        '16': ['1','1'],
         '10': ['1','5'],
         '2': ['1','1'],
       }
@@ -52,24 +45,21 @@ export default {
       if (!converter.isLegal(base, val) || !converter.isLegal(base, val2)) {
         newValues[2] = ['',''];
         newValues[10] = ['',''];
-        newValues[16] = ['',''];
         newValues[base] = [val, val2];
         this.values = newValues;
         return;
       }
 
-      val = converter.convertToDez(base, val);
-      val2 = converter.convertToDezFract(base, val2);
+      let valB10 = converter.convertToDez(base, val);
+      let val2B10 = ("" + (converter.convertToDezFract(base, val2) || "0.0")).substr(2);
 
-      newValues[10] = ["" + val, "" + val2];
+      newValues[10] = ["" + valB10, "" + val2B10];
       newValues[2] = [
-        converter.decodeDezByBase(2, val).join(''),
-        converter.decodeDezByBase(2, val2).join('')
+        converter.decodeDezByBase(2, valB10).join(''),
+        converter.decodeDezFractToBinary(parseFloat("0." + val2B10)).join('')
       ];
-      newValues[16] = [
-        converter.decodeDezByBase(16, val).join(''),
-        converter.decodeDezByBase(16, val2).join('')
-      ];
+
+      newValues[base] = [val, val2];
       this.values = newValues;
     }
   }
