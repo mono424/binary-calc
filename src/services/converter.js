@@ -35,10 +35,21 @@ const convertToDezFract = (base, num) => {
     return (ALPHABET.indexOf(num[0]) + convertToDezFract(base, num.substr(1, num.length - 1))) / base;
 };
 
+const fractDezToBinaryWay = (onum) => {
+    let num = onum * 2;
+    if (num == 1) return [ { input: onum, process: ['*', '2'], processed: num, resCond: [num, '>=', '1'], result: ALPHABET[1] } ];
+    if (num == 0) return [ { input: onum, process: ['*', '2'], processed: num, resCond: [num, '<', '1'], result: ALPHABET[0], notice: "Letzte null kann weggelassen werden" } ];
+
+    return (num > 1) 
+    ? [{ input: onum, process: ['*', '2'], processed: num, resCond: [num, '>=', '1'], result: ALPHABET[1] }, ...fractDezToBinaryWay((num - 1))]
+    : [{ input: onum, process: ['*', '2'], processed: num, resCond: [num, '<', '1'], result: ALPHABET[0] }, ...fractDezToBinaryWay(num)];
+};
+
 export default {
     decodeDezByBase,
     isLegal,
     convertToDez,
     convertToDezFract,
     decodeDezFractToBinary,
+    fractDezToBinaryWay,
 }
